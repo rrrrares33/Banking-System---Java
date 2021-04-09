@@ -111,25 +111,41 @@ public class Customer {
     public void addAccountDebit(String type, String currency, String IBAN, String BIC) {
         if (type == "Debit") {
             Account aux = new Debit_Acc(type, currency, IBAN, BIC);
-            accounts.add(aux);
+            this.accounts.add(aux);
         }
     }
 
     public void addAccountCredit(String type, String currency, String IBAN, String BIC, float maxCredit) {
         if (type == "Credit") {
             Account aux = new Credit_Acc(type, currency, IBAN, BIC, maxCredit);
-            accounts.add(aux);
+            this.accounts.add(aux);
         }
     }
 
     public void addAccountSavings(String type, String currency, String IBAN, String BIC, float interest_rate) {
         if (type == "Saving") {
             Account aux = new Saving_Acc(type, currency, IBAN, BIC, interest_rate);
-            accounts.add(aux);
+            this.accounts.add(aux);
         }
     }
 
-    public int getAccNr() { return accounts.size(); }
+    public int getAccNr() { return this.accounts.size(); }
 
-    public Account getAcc(int i) { return accounts.get(i); }
+    public Account getAcc(int i) { return this.accounts.get(i); }
+
+    public List<Account> getAllAcc() { return this.accounts; }
+
+    public void deleteAcc(int i) {
+        this.accounts.remove(i);
+    }
+
+    public int searchIBAN(String IBAN) {
+        for(int i = 0 ; i < this.accounts.size(); i++) {
+            if (this.accounts.get(i).getIBAN().equals(IBAN)){
+                return i;
+            }
+        }
+        System.out.println("This IBAN does not exist in our system.");
+        return -1;
+    }
 }

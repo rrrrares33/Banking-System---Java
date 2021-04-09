@@ -26,12 +26,11 @@ public class Saving_Acc extends Account{
         else {
             System.out.println("You do not have permission to withdraw money from this account.");
         }
-        System.out.println("Press Any Key To Continue...");
-        new java.util.Scanner(System.in).nextLine();
     }
 
     public void deposit(float amount){
-        System.out.println("\n" + amount + this.getCurrency() + "has been added to "+ this.getIBAN() + " account");
+        System.out.println("\n" + amount + this.getCurrency() + " has been added to "+ this.getIBAN() + " account");
+        this.setBalance(this.getBalance() + amount);
     }
 
     @Override
@@ -43,7 +42,6 @@ public class Saving_Acc extends Account{
             text += "Yes\n";
         else
             text += "No\n";
-        text += "\n\n";
         return text;
     }
 }

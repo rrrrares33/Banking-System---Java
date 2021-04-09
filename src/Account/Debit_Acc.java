@@ -16,19 +16,17 @@ public class Debit_Acc extends Account{
         {
             System.out.println("You do not have enough money in your account.");
         }
-        System.out.println("Press Any Key To Continue...");
-        new java.util.Scanner(System.in).nextLine();
     }
 
     public void deposit(float amount){
-        System.out.println("\n" + amount + this.getCurrency() + "has been added to "+ this.getIBAN() + " account");
+        System.out.println("\n" + amount + this.getCurrency() + " has been added to "+ this.getIBAN() + " account");
+        this.setBalance(this.getBalance() + amount);
     }
 
     @Override
     public String toString() {
         String text = this.getType() + " " + this.getIBAN() + " " + this.getBIC() + "\n";
         text += this.getBalance() + this.getCurrency() + "\n";
-        text += "\n\n";
         return text;
     }
 }

@@ -29,12 +29,23 @@ public class Credit_Acc extends Account{
                         "You can credit at most" + (this.maxCredit - this.Credit) + " .");
             }
         }
-        System.out.println("Press Any Key To Continue...");
-        new java.util.Scanner(System.in).nextLine();
     }
 
     public void deposit(float amount){
-        System.out.println("\n" + amount + this.getCurrency() + "has been added to "+ this.getIBAN() + " account");
+        System.out.println("\n" + amount + this.getCurrency() + " has been added to "+ this.getIBAN() + " account");
+        if (this.Credit > 0) {
+            if (this.Credit > amount) {
+                this.Credit -= amount;
+            }
+            else {
+                amount -= this.Credit;
+                this.Credit = 0;
+                this.setBalance(this.getBalance() + amount);
+            }
+        }
+        else {
+            this.setBalance(this.getBalance() + amount);
+        }
     }
 
     @Override
@@ -42,7 +53,6 @@ public class Credit_Acc extends Account{
         String text = this.getType() + " " + this.getIBAN() + " " + this.getBIC() + "\n";
         text += this.getBalance() + this.getCurrency() + "\n";
         text += "Credit made:" + this.Credit + "  Max Credit:" + this.maxCredit;
-        text += "\n\n";
         return text;
     }
 }
