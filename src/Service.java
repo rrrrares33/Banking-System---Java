@@ -8,9 +8,15 @@ import java.util.List;
 import java.util.Set;
 
 public class Service {
-    private final List<Customer> customers = new ArrayList<>();
-    private final Bank Bank = new Bank("Banca Comerciala Romana", "BCR", "+4072421421", "bcr@contact.ro");
-    private final Set<Transaction> transaction_history = new HashSet<>();
+    private final List<Customer> customers;
+    private final Bank Bank;
+    private final Set<Transaction> transaction_history;
+
+    public Service() {
+        customers = new ArrayList<>();
+        Bank = new Bank("Banca Comerciala Romana", "BCR", "+4072421421", "bcr@contact.ro");
+        transaction_history = new HashSet<>();
+    }
 
     public void displayMenu() {
         System.out.println("==============Menu===================");
