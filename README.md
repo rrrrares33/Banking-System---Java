@@ -14,6 +14,9 @@ The following classes are implemented:
  <li>Main</li>
 </ul>
 
+![System](https://user-images.githubusercontent.com/61795553/114236046-b4ee0880-9989-11eb-8df4-5e901c431623.png)
+
+
 The Service class contains the following atributes:
 <ol>
  <li>Bank Bank  -->   Contains bank information and locations of branches.</li>
@@ -22,19 +25,6 @@ The Service class contains the following atributes:
 </ol>
 
 The Service class implements the following methods (which can be accesed though a menu that appears when the application starts):
-<ul>
- <li>Close system.</li>
- <li>Create a new customer. </li>
- <li>Delete a customer.</li>
- <li>Show bank details.</li>
- <li>Add a new location or address for a bank branch.</li>
- <li>Add an account to a customer.</li>
- <li>Delete an account from an customer.</li>
- <li>Add money to an account.</li>
- <li>Withdraw money from an account.</li>
- <li>Make a transaction between two customers.</li>
- <li>Make a credit.</li>
- <li>Display all account of a customer.</li>
- <li>Display all customers.</li>
- <li>Display all transactions ever made.</li>
-</ul>
+
+![image](https://user-images.githubusercontent.com/61795553/114236146-dcdd6c00-9989-11eb-9698-da096b0c7184.png)
+
