@@ -6,8 +6,8 @@ public class Saving_Acc extends Account{
     // In order to withdraw money from a Savings Account you need bank approval.
     private Boolean withdraw_approval;
 
-    public Saving_Acc(String type, String currency, String IBAN, String BIC, float interest_rate) {
-        super("Saving", currency, IBAN, BIC);
+    public Saving_Acc(String type, String currency, float interest_rate) {
+        super("Saving", currency);
         this.interest_rate = interest_rate;
         this.withdraw_approval = false;
     }

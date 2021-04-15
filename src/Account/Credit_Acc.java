@@ -4,8 +4,8 @@ public class Credit_Acc extends Account{
     private float maxCredit;
     private float Credit;
 
-    public Credit_Acc(String type, String currency, String IBAN, String BIC, float maxCredit) {
-        super("Credit", currency, IBAN, BIC);
+    public Credit_Acc(String type, String currency, float maxCredit) {
+        super("Credit", currency);
         this.maxCredit = maxCredit;
         this.Credit = 0;
     }

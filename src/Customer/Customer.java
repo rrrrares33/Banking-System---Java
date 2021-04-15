@@ -108,23 +108,23 @@ public class Customer {
         return text;
     }
 
-    public void addAccountDebit(String type, String currency, String IBAN, String BIC) {
+    public void addAccountDebit(String type, String currency) {
         if (type == "Debit") {
-            Account aux = new Debit_Acc(type, currency, IBAN, BIC);
+            Account aux = new Debit_Acc(type, currency);
             this.accounts.add(aux);
         }
     }
 
-    public void addAccountCredit(String type, String currency, String IBAN, String BIC, float maxCredit) {
+    public void addAccountCredit(String type, String currency, float maxCredit) {
         if (type == "Credit") {
-            Account aux = new Credit_Acc(type, currency, IBAN, BIC, maxCredit);
+            Account aux = new Credit_Acc(type, currency, maxCredit);
             this.accounts.add(aux);
         }
     }
 
-    public void addAccountSavings(String type, String currency, String IBAN, String BIC, float interest_rate) {
+    public void addAccountSavings(String type, String currency, float interest_rate) {
         if (type == "Saving") {
-            Account aux = new Saving_Acc(type, currency, IBAN, BIC, interest_rate);
+            Account aux = new Saving_Acc(type, currency, interest_rate);
             this.accounts.add(aux);
         }
     }

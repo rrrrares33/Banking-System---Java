@@ -3,8 +3,8 @@ package Account;
 import java.util.Scanner;
 
 public class Debit_Acc extends Account{
-    public Debit_Acc(String type, String currency, String IBAN, String BIC) {
-        super("Debit", currency, IBAN, BIC);
+    public Debit_Acc(String type, String currency) {
+        super("Debit", currency);
     }
 
     public void withdraw(float amount) {

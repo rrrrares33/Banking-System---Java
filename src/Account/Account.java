@@ -4,12 +4,12 @@ public abstract class Account {
     private String type, currency, IBAN, BIC;
     private float balance;
 
-    Account(String type, String currency, String BIC) {
+    Account(String type, String currency) {
         IBAN_Factory new_IBAN = new IBAN_Factory();
         this.IBAN = new_IBAN.get_IBAN();
         this.type = type;
         this.currency = currency;
-        this.BIC = BIC;
+        this.BIC = "RGBKBUCH";
         this.balance = 0;
     }
 

@@ -271,24 +271,18 @@ public class Service {
             String currency = input.nextLine().toString();
             switch (typeInt) {
                 case(1): {
-                    customers.get(pos).addAccountDebit("Debit", currency,
-                            "DEBROBCR" + customers.get(pos).getCNP(),
-                            "DRNCB" + customers.get(pos).getID() + customers.get(pos).getAge());
+                    customers.get(pos).addAccountDebit("Debit", currency);
                     System.out.println("Account created with success.");
                     break;
                 }
                 case(2): {
                     customers.get(pos).addAccountCredit("Credit", currency,
-                            "CRBROBCR" + customers.get(pos).getCNP(),
-                            "CRNCB" + customers.get(pos).getID() + customers.get(pos).getAge(),
                             5000);
                     System.out.println("Account created with success.");
                     break;
                 }
                 case(3): {
                     customers.get(pos).addAccountSavings("Saving", currency,
-                            "SVBROBCR" + customers.get(pos).getCNP(),
-                            "SRNCB" + customers.get(pos).getID() + customers.get(pos).getAge(),
                             (float) 0.03);
                     System.out.println("Account created with success.");
                     break;
