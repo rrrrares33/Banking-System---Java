@@ -6,7 +6,7 @@ public class Tran_Customers extends Transaction {
     private Account sender;
 
     public Tran_Customers(Account receiver, Account sender, String type, float amount) {
-        super(receiver,type, amount);
+        super(receiver, type, amount);
         this.sender = sender;
     }
 
