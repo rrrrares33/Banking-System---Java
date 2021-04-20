@@ -10,9 +10,9 @@ public class Service_Admin {
 
     public Service_Admin() {
         this.bankers = new ArrayList<>();
-        bankers.add(new Banker(0, "Gherasim", "Rares", "5001104080011", "0746018999",
-                "rrares33@yahoo.com","Prahova, Sinaia, etc" ,"2000-11-04", 20));
-        bankers.get(0).setPassword("salam");
+        bankers.add(new Banker(0, "admin", "admin", "5001104080011", "0746018999",
+                "rrares33@yahoo.com","Prahova, Sinaia, etc" ,"2000-11-04", 33));
+        bankers.get(0).setPassword("admin");
     }
 
     public void display_menu() {
@@ -59,6 +59,16 @@ public class Service_Admin {
             }
         }
         return connected;
+    }
+
+    public Banker connectedBanker(String name, String surname, String password) {
+        for (int i = 0 ; i < bankers.size(); i++) {
+            if (name.compareTo(bankers.get(i).getFirstName()) == 0 && surname.compareTo(bankers.get(i).getSecondName()) == 0
+                    && password.compareTo(bankers.get(i).getPassword()) == 0) {
+                return bankers.get(i);
+            }
+        }
+        return null;
     }
 
     public void addNewBanker(String systemPassword) {

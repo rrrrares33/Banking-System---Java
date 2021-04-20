@@ -58,9 +58,11 @@ public class Main {
                 }
 
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                Service_Customers service = new Service_Customers(
+                        admins.connectedBanker(name, surname, password));
 
                 while (!finish) {
-                    Service_Customers service = new Service_Customers();
+                    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                     service.displayMenu();
                     System.out.println("Enter your option here: ");
                     optionStr = input.nextLine().toString();

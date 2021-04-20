@@ -1,6 +1,5 @@
 package Transaction;
 
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import Account.*;
 import Users.Banker;
@@ -9,13 +8,15 @@ public abstract class Transaction {
     private Account receiver;
     private String date, type;
     private float amount;
+    // The person how made the transfer though the system.
+    private Banker banker;
 
-    public Transaction(Account receiver, String type, float amount) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    public Transaction(Account receiver, String type, float amount, Banker banker) {
         this.date = LocalDateTime.now().toString();
         this.receiver = receiver;
         this.type = type;
         this.amount = amount;
+        this.banker = banker;
     }
 
     public Account getReceiver() { return this.receiver; }
@@ -33,4 +34,8 @@ public abstract class Transaction {
     public String getType() { return this.type; }
 
     public void setType(String typ) { this.type = typ; }
+
+    public void setBanker(Banker banker) { this.banker = banker; }
+
+    public Banker getBanker() { return this.banker; }
 }

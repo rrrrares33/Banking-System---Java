@@ -1,7 +1,5 @@
 package Users;
 
-import Users.Person;
-
 public class Banker extends Person {
     private String password;
 

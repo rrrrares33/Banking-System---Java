@@ -11,12 +11,16 @@ public class Service_Customers {
     private final List<Customer> customers;
     private final Bank Bank;
     private final Set<Transaction> transaction_history;
+    private final Banker banker;
 
-    public Service_Customers() {
+    public Service_Customers(Banker banker) {
         customers = new ArrayList<>();
         Bank = new Bank("Banca Comerciala Romana", "BCR", "+4072421421", "bcr@contact.ro");
         transaction_history = new HashSet<>();
+        this.banker = banker;
     }
+
+    public Banker getBanker() { return this.banker; }
 
     public void displayMenu() {
         System.out.println("==============Menu===================");
@@ -35,15 +39,6 @@ public class Service_Customers {
         System.out.println("12. Display all customers.");
         System.out.println("13. Display all transactions ever made.");
         System.out.println("=====================================");
-
-        /*
-        customers.add(new Customer(0, "Gherasim", "Rares", "5001104080011", "0746018999",
-                "rrares33@yahoo.com","Prahova, Sinaia, etc" ,"2000-11-04", 20));
-        customers.add(new Customer(1, "Dima", "Matei", "5001219080241", "0244234999",
-                "dimasebastian@yahoo.com","Bucuresti, Bucuresti, etc" ,"1985-11-04", 35));
-        customers.add(new Customer(2, "Voinea", "Roberta Maria", "6001212298811", "0743523239",
-                "voinearoberta@yahoo.com","Ilfov, Popesti-Leordeni, etc" ,"2000-12-12", 20));
-        */
     }
 
     public void interpretOption(Integer option) {
@@ -432,29 +427,33 @@ public class Service_Customers {
             String IBAN_2 = input.nextLine().toString();
 
             Customer sender = this.customers.get(pos1), receiver = this.customers.get(pos2);
-            Account acc_sender = sender.getAcc(sender.searchIBAN(IBAN_1));
-            Account acc_receiver = receiver.getAcc(receiver.searchIBAN(IBAN_2));
+            try {
+                Account acc_sender = sender.getAcc(sender.searchIBAN(IBAN_1));
+                Account acc_receiver = receiver.getAcc(receiver.searchIBAN(IBAN_2));
 
-            // Direct transfers can only be made from Debit accounts
-            if ((acc_sender.getType().equals(acc_receiver.getType()) && acc_sender.getType().equals("Debit")) ||
-                    acc_sender.getCurrency().equals(acc_receiver.getCurrency())) {
-                System.out.println("Amount to transfer: ");
-                String amount = input.nextLine().toString();
+                // Direct transfers can only be made from Debit accounts
+                if ((acc_sender.getType().equals(acc_receiver.getType()) && acc_sender.getType().equals("Debit")) ||
+                        acc_sender.getCurrency().equals(acc_receiver.getCurrency())) {
+                    System.out.println("Amount to transfer: ");
+                    String amount = input.nextLine().toString();
 
-                if (acc_sender.getBalance() > Float.parseFloat(amount)) {
-                    Transaction aux = new Tran_Customers(acc_receiver, acc_sender, "Customers", Float.parseFloat(amount));
-                    acc_sender.setBalance(acc_sender.getBalance() - Float.parseFloat(amount));
-                    acc_receiver.setBalance(acc_receiver.getBalance() + Float.parseFloat(amount));
-                    this.transaction_history.add(aux);
+                    if (acc_sender.getBalance() > Float.parseFloat(amount)) {
+                        Transaction aux = new Tran_Customers(acc_receiver, acc_sender,
+                                "Customers", Float.parseFloat(amount), this.getBanker());
+                        acc_sender.setBalance(acc_sender.getBalance() - Float.parseFloat(amount));
+                        acc_receiver.setBalance(acc_receiver.getBalance() + Float.parseFloat(amount));
+                        this.transaction_history.add(aux);
+                        System.out.println("The transaction has been processed and the money added to the account");
+                    } else {
+                        System.out.println("You do not have enough money in the account.");
+                    }
+
+                } else {
+                    System.out.println("Accounts are not eligible for transfer.");
                 }
-                else
-                {
-                    System.out.println("You do not have enough money in the account.");
-                }
-
             }
-            else {
-                System.out.println("Accounts are not eligible for transfer.");
+            catch (IndexOutOfBoundsException e) {
+                System.out.println("The accounts could not be found.");
             }
 
         }
@@ -464,6 +463,7 @@ public class Service_Customers {
     }
 
     private void makeACredit() {
+        //This option is avaliable for big credits.
         System.out.println("\n\n\n\n\n\n\n\n");
         Scanner input = new Scanner(System.in);
         System.out.println("\n\n\n\n=======Make a credit=========");
@@ -484,7 +484,8 @@ public class Service_Customers {
                 System.out.println("What amount of money do you need? ( < 50000 ).");
                 String amoun = input.nextLine().toString();
                 float amount = Float.parseFloat(amoun);
-                Transaction aux = new Tran_Bank_Credit(this.customers.get(pos).getAcc(pos_acc), "Credit", amount);
+                Transaction aux = new Tran_Bank_Credit(this.customers.get(pos).getAcc(pos_acc),
+                        "Credit", amount, this.getBanker());
 
                 transaction_history.add(aux);
                 this.customers.get(pos).getAcc(pos_acc).setBalance(this.customers.get(pos).getAcc(pos_acc).getBalance() + amount);
