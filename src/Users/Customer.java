@@ -60,6 +60,8 @@ public class Customer extends Person{
 
     public List<Account> getAllAcc() { return this.accounts; }
 
+    public void setAccounts(List<Account> acc) {this.accounts = acc; }
+
     public void deleteAcc(int i) {
         this.accounts.remove(i);
     }

@@ -100,11 +100,18 @@ public class Service_Customers {
                 case 14: {
                     //For testing.
                     customers.add(new Customer(0, "Gherasim", "Rares", "5001104080011", "0746018999",
-                            "rrares33@yahoo.com","Prahova, Sinaia, etc" ,"2000-11-04", 20));
+                            "rrares33@yahoo.com","Prahova Sinaia etc" ,"2000-11-04", 20));
                     customers.add(new Customer(1, "Dima", "Matei", "5001219080241", "0244234999",
-                            "dimasebastian@yahoo.com","Bucuresti, Bucuresti, etc" ,"1985-11-04", 35));
+                            "dimasebastian@yahoo.com","Bucuresti Bucuresti etc" ,"1985-11-04", 35));
                     customers.add(new Customer(2, "Voinea", "Roberta Maria", "6001212298811", "0743523239",
-                            "voinearoberta@yahoo.com","Ilfov, Popesti-Leordeni, etc" ,"2000-12-12", 20));
+                            "voinearoberta@yahoo.com","Ilfov Popesti-Leordeni etc" ,"2000-12-12", 20));
+
+                    customers.get(0).addAccountDebit("Debit", "RON");
+                    customers.get(0).addAccountCredit("Credit", "EUR",5000);
+
+                    customers.get(1).addAccountDebit("Debit", "RON");
+
+                    customers.get(2).addAccountSavings("Saving", "LIR", (float) 0.03);
                     break;
                 }
             }
@@ -117,6 +124,10 @@ public class Service_Customers {
     public Bank getBank() { return this.Bank; }
 
     public void setBank(Bank bank) { this.Bank = bank;}
+
+    public List<Customer> getCustomers() { return this.customers;}
+
+    public void setCustomers(List<Customer> x) { this.customers = x;}
 
     private boolean uniqueCNP(String CNP){
         for(int i = 0; i < customers.size(); i++){

@@ -48,6 +48,14 @@ public class Credit_Acc extends Account{
         }
     }
 
+    public float getCredit() {return this.Credit; }
+
+    public float getMaxCredit() {return this.maxCredit; }
+
+    public void setMaxCredit(float x) {this.maxCredit = x;}
+
+    public void setCredit(float x) {this.Credit = x;}
+
     @Override
     public String toString() {
         String text = this.getType() + " " + this.getIBAN() + " " + this.getBIC() + "\n";

@@ -12,6 +12,12 @@ public class Saving_Acc extends Account{
         this.withdraw_approval = false;
     }
 
+    public void setInterest_rate(float x) { this.interest_rate = x;}
+    public void setWithdraw_approval(Boolean x) {this.withdraw_approval = x;}
+
+    public Boolean getWithdraw_approval() { return this.withdraw_approval; }
+    public float getInterest_rate() { return this.interest_rate; }
+
     public void withdraw(float amount) {
         if (withdraw_approval) {
             if (this.getBalance() > amount){

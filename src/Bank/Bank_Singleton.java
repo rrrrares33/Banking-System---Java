@@ -27,9 +27,6 @@ public class Bank_Singleton {
     }
 
     public void loadData(){
-
-        List<String[]> dataCols = new ArrayList<>();
-
         //Check if there is any line at all in the file
         try(var in = new BufferedReader(new FileReader("data/banks.csv"))) {
 

@@ -1,5 +1,7 @@
+import Bank.Bank_Singleton;
 import Users.Banker_Singleton;
 import Bank.Bank_Singleton;
+import Users.Customer_Singleton;
 
 import java.util.*;
 
@@ -29,7 +31,7 @@ public class Main {
             System.out.println("Please enter your password:");
             String admin_pass = input.nextLine().toString();
 
-            //Service initialization
+            //Banker Data Initialization
             Service_Admin admins = new Service_Admin();
             Banker_Singleton.getInstance().loadData();
             admins.setBankers(Banker_Singleton.getInstance().getBankers());
@@ -69,7 +71,8 @@ public class Main {
                     audit.add_command(admin_name, "Banker administrative side option selected: " + Integer.toString(option));
                 }
 
-                //Saving bankers.
+                //Saving Banker data (after this point, the data on this part can not be changed anymore without
+                //                    restarting the program)
                 Banker_Singleton.getInstance().setBankers(admins.getBankers());
                 Banker_Singleton.getInstance().saveData();
 
@@ -78,9 +81,11 @@ public class Main {
                     Service_Customers service = new Service_Customers(
                             admins.connectedBanker(admin_name, admin_surname, admin_pass));
 
-                    //Data initialization
+                    //Data initialization ==========================================================
                     Bank_Singleton.getInstance().loadData();
                     service.setBank(Bank_Singleton.getInstance().getBank());
+                    Customer_Singleton.getInstance().loadData();
+                    service.setCustomers(Customer_Singleton.getInstance().getCustomers());
 
                     while (!finish) {
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -108,9 +113,11 @@ public class Main {
                         }
                     }
 
-                    //Data saving
+                    //Data saving=============================================================================
                     Bank_Singleton.getInstance().setBank(service.getBank());
                     Bank_Singleton.getInstance().saveData();
+                    Customer_Singleton.getInstance().setCustomers(service.getCustomers());
+                    Customer_Singleton.getInstance().saveData();
                 }
 
                 audit.add_command(admin_name, "Banker closed the system.");
