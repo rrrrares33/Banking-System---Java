@@ -1,6 +1,6 @@
 package Users;
 
-public class Person implements Human{
+public abstract class Person implements Human{
     private Integer id, age;
     private String name, surname, CNP, phone_nr, email, address;
     private String birthday;

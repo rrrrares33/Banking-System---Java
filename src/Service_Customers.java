@@ -24,7 +24,7 @@ public class Service_Customers {
 
     public void displayMenu() {
         System.out.println("==============Menu===================");
-        System.out.println("0. Close system.");
+        System.out.println("0. Close system and save changes.");
         System.out.println("1. Create a new customer.");
         System.out.println("2. Delete a customer.");
         System.out.println("3. Show bank details.");

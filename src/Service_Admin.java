@@ -1,3 +1,4 @@
+import Bank.Bank;
 import Users.Banker;
 
 import java.util.ArrayList;
@@ -6,17 +7,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Service_Admin {
-    private final List<Banker> bankers;
+    private List<Banker> bankers;
 
     public Service_Admin() {
         this.bankers = new ArrayList<>();
-        bankers.add(new Banker(0, "admin", "admin", "5001104080011", "0746018999",
-                "rrares33@yahoo.com","Prahova, Sinaia, etc" ,"2000-11-04", 33));
-        bankers.get(0).setPassword("admin");
     }
+
+    public void setBankers(List<Banker> bankers) { this.bankers = bankers; }
+
+    public List<Banker> getBankers() { return this.bankers; }
 
     public void display_menu() {
         System.out.println("==============Menu===================");
+        System.out.println("0. Close system and save changes.");
         System.out.println("1. Enter customers system.");
         System.out.println("2. Create a new banker");
         System.out.println("3. Delete a banker.");
@@ -104,7 +107,7 @@ public class Service_Admin {
             String password = input.nextLine().toString();
 
 
-            Banker newBanker = new Banker(bankers.size(), name, surname, CNP, phone, email, address, Birthday, Integer.parseInt(age));
+            Banker newBanker = new Banker(bankers.get(bankers.size() - 1).getID(), name, surname, CNP, phone, email, address, Birthday, Integer.parseInt(age));
             newBanker.setPassword(password);
 
             bankers.add(newBanker);
