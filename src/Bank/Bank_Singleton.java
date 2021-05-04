@@ -1,12 +1,9 @@
 package Bank;
 
-import Users.Banker;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Bank_Singleton {
 
@@ -29,73 +26,65 @@ public class Bank_Singleton {
         return bank;
     }
 
-    private static List<String[]> getCols(String nameOfFile){
+    public void loadData(){
 
         List<String[]> dataCols = new ArrayList<>();
 
         //Check if there is any line at all in the file
-        try(var in = new BufferedReader(new FileReader(nameOfFile))) {
+        try(var in = new BufferedReader(new FileReader("data/banks.csv"))) {
 
             String line = in.readLine() ;
-            //While we still have lines to read from the file.
+
+            if (line == null) {
+                bank = new Bank("Banca Comerciala Romana", "BCR", "+4072421421", "bcr@contact.ro");
+                return;
+            }
+
+            String[] firstLine = line.split(",");
+            bank = new Bank(firstLine[0], firstLine[1], firstLine[2], firstLine[3]);
+
+            line = in.readLine() ;
+            //While we still have lines to read from the file. (cities and locations in this case)
+            Map<String, List<String>> locs = new HashMap<>();
             while(line != null ){
-                String[] fields = line.split(",");
-                dataCols.add(fields);
+                List<String> fields = Arrays.asList(line.split(","));
+
+                List<String> addresses = new ArrayList<>();
+
+                for(int i = 1; i < fields.size(); i++) {
+                    addresses.add(fields.get(i));
+                }
+
+                locs.put(fields.get(0), addresses);
                 line = in.readLine();
             }
 
+            bank.setLocations(locs);
         }
         catch (Exception e)
         {
-            System.out.println("!There are no bankers saved in the system!");
+            System.out.println("!There are no banks saved in the system!");
         }
-
-        return dataCols;
-    }
-
-    public void loadData() {
-        try{
-            List <String[]> lines = Users.Bank_Singleton.getCols("data/bankers.csv");
-            for(var line : lines){
-                var newBanker = new Banker(
-                        Integer.parseInt(line[0]),
-                        line[1], //name
-                        line[2], //surname
-                        line[3], // CNP
-                        line[4], // phone nr
-                        line[5], // email
-                        line[6], // address
-                        line[7], // birthday
-                        Integer.parseInt(line[8]) // age
-                );
-                newBanker.setPassword(line[9]);
-                bankers.add(newBanker);
-            }
-        }catch (Exception e){
-            System.out.println("Exception encountered.");
-        }
-
     }
 
     public void saveData(){
         try{
-            var write = new FileWriter("data/bankers.csv");
-            for(int i = 0; i < bankers.size(); i++){
-                write.write(Integer.toString(bankers.get(i).getID()) +
-                        ',' + bankers.get(i).getFirstName() +
-                        ',' + bankers.get(i).getSecondName() +
-                        ',' + bankers.get(i).getCNP() +
-                        ',' + bankers.get(i).getPhone_nr() +
-                        ',' + bankers.get(i).getEmail() +
-                        ',' + bankers.get(i).getAddress() +
-                        ',' + bankers.get(i).getBirthday() +
-                        ',' + bankers.get(i).getAge() +
-                        ',' + bankers.get(i).getPassword() +
-                        '\n');
+            var write = new FileWriter("data/banks.csv");
+            write.write(bank.getName() + "," + bank.getPrefix() + "," + bank.getContact()
+                    + "," + bank.getEmail() +"\n");
+
+            for(var city : bank.getLocations().keySet()){
+                write.write((String) city);
+                for(var loc : (List<String>) bank.getLocations().get(city)) {
+                    write.write("," + loc);
+                }
+                write.write("\n");
             }
+
             write.close();
         }catch (Exception e){
-            System.out.println("Exception encountered.");
+            System.out.println(bank.getLocations().keySet());
+            System.out.println(e.toString());
         }
     }
 }

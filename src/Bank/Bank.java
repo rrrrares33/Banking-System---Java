@@ -65,6 +65,10 @@ public class Bank {
 
     public String getEmail() { return this.email; }
 
+    public Map getLocations() { return this.locations; }
+
+    public void setLocations(Map locs) { this.locations = locs; }
+
     public void addCity(String city) {
         if(locations.containsKey(city)){
             System.out.println("This city already exists in our System.");

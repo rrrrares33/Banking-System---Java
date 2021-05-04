@@ -27,7 +27,7 @@ public class Service_Audit {
             write.close();
         }
         catch (Exception e) {
-            System.out.println("Exception");
+            System.out.println(e.toString());
         }
     }
 }

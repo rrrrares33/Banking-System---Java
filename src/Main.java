@@ -1,4 +1,5 @@
-import Users.Bank_Singleton;
+import Users.Banker_Singleton;
+import Bank.Bank_Singleton;
 
 import java.util.*;
 
@@ -30,17 +31,18 @@ public class Main {
 
             //Service initialization
             Service_Admin admins = new Service_Admin();
-            Bank_Singleton.getInstance().loadData();
-            admins.setBankers(Bank_Singleton.getInstance().getBankers());
+            Banker_Singleton.getInstance().loadData();
+            admins.setBankers(Banker_Singleton.getInstance().getBankers());
 
             boolean connected = admins.connection(admin_name, admin_surname, admin_pass);
             if (connected) {
                 audit.add_command(admin_name, "Connected to the admin system");
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n!!Conexiune realizată cu success!!!");
+
                 admins.display_menu();
                 String optionStr = input.nextLine().toString();
                 Integer option = Integer.parseInt(optionStr);
-                audit.add_command(admin_name, "Banker administration option selected: " + Integer.toString(option));
+                audit.add_command(admin_name, "Banker administrative side option selected: " + Integer.toString(option));
 
                 while (option != 1 && option != 0) {
                     try {
@@ -64,12 +66,12 @@ public class Main {
                     optionStr = input.nextLine().toString();
                     option = Integer.parseInt(optionStr);
 
-                    audit.add_command(admin_name, "Banker administration option selected: " + Integer.toString(option));
+                    audit.add_command(admin_name, "Banker administrative side option selected: " + Integer.toString(option));
                 }
 
                 //Saving bankers.
-                Bank_Singleton.getInstance().setBankers(admins.getBankers());
-                Bank_Singleton.getInstance().saveData();
+                Banker_Singleton.getInstance().setBankers(admins.getBankers());
+                Banker_Singleton.getInstance().saveData();
 
                 if (option != 0) {
                     System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -77,13 +79,15 @@ public class Main {
                             admins.connectedBanker(admin_name, admin_surname, admin_pass));
 
                     //Data initialization
-
+                    Bank_Singleton.getInstance().loadData();
+                    service.setBank(Bank_Singleton.getInstance().getBank());
 
                     while (!finish) {
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         service.displayMenu();
                         System.out.println("Enter your option here: ");
                         optionStr = input.nextLine().toString();
+                        audit.add_command(admin_name, "Banker customer side option selected: " + Integer.toString(option));
                         try {
                             option = Integer.parseInt(optionStr);
                             if (option > 14 || option < 0) {
@@ -103,9 +107,13 @@ public class Main {
                             new java.util.Scanner(System.in).nextLine();
                         }
                     }
+
+                    //Data saving
+                    Bank_Singleton.getInstance().setBank(service.getBank());
+                    Bank_Singleton.getInstance().saveData();
                 }
 
-                audit.add_command(admin_name, "Banker " + admin_name + " closed the system.");
+                audit.add_command(admin_name, "Banker closed the system.");
             }
             else {
                 System.out.println("This banker does not exist in the system.");

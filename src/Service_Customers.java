@@ -8,14 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 public class Service_Customers {
-    private final List<Customer> customers;
-    private final Bank Bank;
-    private final Set<Transaction> transaction_history;
+    private  List<Customer> customers;
+    private Bank Bank;
+    private Set<Transaction> transaction_history;
     private final Banker banker;
 
     public Service_Customers(Banker banker) {
         customers = new ArrayList<>();
-        Bank = new Bank("Banca Comerciala Romana", "BCR", "+4072421421", "bcr@contact.ro");
         transaction_history = new HashSet<>();
         this.banker = banker;
     }
@@ -114,6 +113,10 @@ public class Service_Customers {
             System.out.println(exp.toString());
         }
     }
+
+    public Bank getBank() { return this.Bank; }
+
+    public void setBank(Bank bank) { this.Bank = bank;}
 
     private boolean uniqueCNP(String CNP){
         for(int i = 0; i < customers.size(); i++){
