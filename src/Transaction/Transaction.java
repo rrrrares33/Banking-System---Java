@@ -1,22 +1,25 @@
 package Transaction;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import Account.*;
 import Users.Banker;
 
 public abstract class Transaction {
+    private int id;
     private Account receiver;
     private String date, type;
     private float amount;
-    // The person how made the transfer though the system.
-    private Banker banker;
 
-    public Transaction(Account receiver, String type, float amount, Banker banker) {
-        this.date = LocalDateTime.now().toString();
+    final DateTimeFormatter form = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public Transaction(int id, Account receiver, String type, float amount) {
+        this.id = id;
+        this.date = form.format(LocalDateTime.now()).toString();
         this.receiver = receiver;
         this.type = type;
         this.amount = amount;
-        this.banker = banker;
     }
 
     public Account getReceiver() { return this.receiver; }
@@ -35,7 +38,7 @@ public abstract class Transaction {
 
     public void setType(String typ) { this.type = typ; }
 
-    public void setBanker(Banker banker) { this.banker = banker; }
+    public int getId() { return this.id; }
 
-    public Banker getBanker() { return this.banker; }
+    public void setId(int id) { this.id = id;}
 }

@@ -14,8 +14,6 @@ public class Service_Customers {
     private final Banker banker;
 
     public Service_Customers(Banker banker) {
-        customers = new ArrayList<>();
-        transaction_history = new HashSet<>();
         this.banker = banker;
     }
 
@@ -98,20 +96,28 @@ public class Service_Customers {
                     break;
                 }
                 case 14: {
-                    //For testing.
+                    //For faster testing.
+                    /*
                     customers.add(new Customer(0, "Gherasim", "Rares", "5001104080011", "0746018999",
                             "rrares33@yahoo.com","Prahova Sinaia etc" ,"2000-11-04", 20));
                     customers.add(new Customer(1, "Dima", "Matei", "5001219080241", "0244234999",
                             "dimasebastian@yahoo.com","Bucuresti Bucuresti etc" ,"1985-11-04", 35));
                     customers.add(new Customer(2, "Voinea", "Roberta Maria", "6001212298811", "0743523239",
-                            "voinearoberta@yahoo.com","Ilfov Popesti-Leordeni etc" ,"2000-12-12", 20));
+                            "voinearoberta@yahoo.com","Ilfov Popesti-Leordeni etc" ,"2000-12-12", 20));*/
 
+                    /*
                     customers.get(0).addAccountDebit("Debit", "RON");
                     customers.get(0).addAccountCredit("Credit", "EUR",5000);
-
                     customers.get(1).addAccountDebit("Debit", "RON");
-
                     customers.get(2).addAccountSavings("Saving", "LIR", (float) 0.03);
+                    */
+
+                    /*
+                    this.transaction_history.add(new Tran_Customers(0, customers.get(0).getAcc(0), customers.get(1).getAcc(0),
+                            "Customers", Float.parseFloat("1000")));
+                    this.transaction_history.add(new Tran_Bank_Credit(1, customers.get(0).getAcc(0), "Credit", Float.parseFloat("500")));
+                    */
+
                     break;
                 }
             }
@@ -128,6 +134,10 @@ public class Service_Customers {
     public List<Customer> getCustomers() { return this.customers;}
 
     public void setCustomers(List<Customer> x) { this.customers = x;}
+
+    public Set<Transaction> getTransaction_history() { return this.transaction_history; }
+
+    public void setTransaction_history(Set<Transaction> x) { this.transaction_history = x; }
 
     private boolean uniqueCNP(String CNP){
         for(int i = 0; i < customers.size(); i++){
@@ -452,11 +462,14 @@ public class Service_Customers {
                     String amount = input.nextLine().toString();
 
                     if (acc_sender.getBalance() > Float.parseFloat(amount)) {
-                        Transaction aux = new Tran_Customers(acc_receiver, acc_sender,
-                                "Customers", Float.parseFloat(amount), this.getBanker());
+                        Transaction aux = new Tran_Customers(transaction_history.size(), acc_receiver, acc_sender,
+                                "Customers", Float.parseFloat(amount));
+
                         acc_sender.setBalance(acc_sender.getBalance() - Float.parseFloat(amount));
                         acc_receiver.setBalance(acc_receiver.getBalance() + Float.parseFloat(amount));
+
                         this.transaction_history.add(aux);
+
                         System.out.println("The transaction has been processed and the money added to the account");
                     } else {
                         System.out.println("You do not have enough money in the account.");
@@ -498,8 +511,8 @@ public class Service_Customers {
                 System.out.println("What amount of money do you need? ( < 50000 ).");
                 String amoun = input.nextLine().toString();
                 float amount = Float.parseFloat(amoun);
-                Transaction aux = new Tran_Bank_Credit(this.customers.get(pos).getAcc(pos_acc),
-                        "Credit", amount, this.getBanker());
+                Transaction aux = new Tran_Bank_Credit(transaction_history.size(), this.customers.get(pos).getAcc(pos_acc),
+                        "Credit", amount);
 
                 transaction_history.add(aux);
                 this.customers.get(pos).getAcc(pos_acc).setBalance(this.customers.get(pos).getAcc(pos_acc).getBalance() + amount);

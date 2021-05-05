@@ -1,4 +1,5 @@
 import Bank.Bank_Singleton;
+import Transaction.Transaction_Singleton;
 import Users.Banker_Singleton;
 import Bank.Bank_Singleton;
 import Users.Customer_Singleton;
@@ -86,6 +87,8 @@ public class Main {
                     service.setBank(Bank_Singleton.getInstance().getBank());
                     Customer_Singleton.getInstance().loadData();
                     service.setCustomers(Customer_Singleton.getInstance().getCustomers());
+                    Transaction_Singleton.getInstance().loadData();
+                    service.setTransaction_history(Transaction_Singleton.getInstance().getTransactions());
 
                     while (!finish) {
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -118,6 +121,8 @@ public class Main {
                     Bank_Singleton.getInstance().saveData();
                     Customer_Singleton.getInstance().setCustomers(service.getCustomers());
                     Customer_Singleton.getInstance().saveData();
+                    Transaction_Singleton.getInstance().setTransactions(service.getTransaction_history());
+                    Transaction_Singleton.getInstance().saveData();
                 }
 
                 audit.add_command(admin_name, "Banker closed the system.");

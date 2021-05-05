@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Banker_Singleton {
@@ -27,52 +28,38 @@ public class Banker_Singleton {
         return bankers;
     }
 
-    private static List<String[]> getCols(String nameOfFile){
-
-        List<String[]> dataCols = new ArrayList<>();
-
+    public void loadData(){
         //Check if there is any line at all in the file
-        try(var in = new BufferedReader(new FileReader(nameOfFile))) {
+        try(var in = new BufferedReader(new FileReader("data/bankers.csv"))) {
 
-            String line = in.readLine() ;
-            //While we still have lines to read from the file.
-            while(line != null ){
-                String[] fields = line.split(",");
-                dataCols.add(fields);
-                line = in.readLine();
+            String line = in.readLine();
+            bankers = new ArrayList<>();
+
+            if (line == null) {
+                // If there are no clients, I will stop the loading here.
+                return;
             }
 
+            while(line != null) {
+                    System.out.println("DAAAAAAAAAAAAAAAAAAAAAAA");
+                    List<String> fields = Arrays.asList(line.split(","));
+
+                    Banker aux = new Banker(Integer.parseInt(fields.get(0)),
+                            fields.get(1), fields.get(2), fields.get(3),
+                            fields.get(4), fields.get(5), fields.get(6),
+                            fields.get(7), Integer.parseInt(fields.get(8)));
+
+                    aux.setPassword(fields.get(9));
+
+                    this.bankers.add(aux);
+
+                    line = in.readLine();
+            }
         }
         catch (Exception e)
         {
-            System.out.println("!There are no bankers saved in the system!");
+            System.out.println("!There are no banks saved in the system!");
         }
-
-        return dataCols;
-    }
-
-    public void loadData() {
-        try{
-            List <String[]> lines = Banker_Singleton.getCols("data/bankers.csv");
-            for(var line : lines){
-                var newBanker = new Banker(
-                        Integer.parseInt(line[0]),
-                        line[1], //name
-                        line[2], //surname
-                        line[3], // CNP
-                        line[4], // phone nr
-                        line[5], // email
-                        line[6], // address
-                        line[7], // birthday
-                        Integer.parseInt(line[8]) // age
-                );
-                newBanker.setPassword(line[9]);
-                bankers.add(newBanker);
-            }
-        }catch (Exception e){
-            System.out.println("Exception encountered.");
-        }
-
     }
 
     public void saveData(){

@@ -6,8 +6,8 @@ import Users.Banker;
 public class Tran_Customers extends Transaction {
     private Account sender;
 
-    public Tran_Customers(Account receiver, Account sender, String type, float amount, Banker banker) {
-        super(receiver, type, amount, banker);
+    public Tran_Customers(int id, Account receiver, Account sender, String type, float amount) {
+        super(id, receiver, type, amount);
         this.sender = sender;
     }
 
@@ -20,7 +20,6 @@ public class Tran_Customers extends Transaction {
     @Override
     public String toString() {
         String text = this.getDate() + "\n";
-        text += "Banker: " + this.getBanker().getFirstName() + " " + this.getBanker().getSecondName() + "\n";
         text += sender.getIBAN() + " sent to " + this.getReceiver().getIBAN()
                 + " the amount of " + this.getAmount() + " " + sender.getCurrency() + ".\n";
         return text;

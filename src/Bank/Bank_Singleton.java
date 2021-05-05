@@ -80,7 +80,6 @@ public class Bank_Singleton {
 
             write.close();
         }catch (Exception e){
-            System.out.println(bank.getLocations().keySet());
             System.out.println(e.toString());
         }
     }
