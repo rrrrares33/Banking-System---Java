@@ -9,8 +9,6 @@ import java.util.*;
 public class Main {
     public static void main(String[] args)
     {
-        Service_Audit audit = new Service_Audit();
-
         System.out.println("\n\n\n\n!!!!!WELCOME TO BANK GHERASIM RARES SYSTEM!!!!!");
         System.out.println("Only Bankers can acces this system and make operations/transactions with customers data.");
         System.out.println("\nTo be able to acces the system you need to be a banker.");
@@ -24,6 +22,7 @@ public class Main {
         String bankOrNot = input.nextLine().toString();
         Integer bankOrNotInt = Integer.parseInt(bankOrNot);
         if (bankOrNotInt == 1) {
+            Service_Audit.getInstance().sys_accessed();
 
             System.out.println("Please enter your name:");
             String admin_name = input.nextLine().toString();
@@ -39,13 +38,13 @@ public class Main {
 
             boolean connected = admins.connection(admin_name, admin_surname, admin_pass);
             if (connected) {
-                audit.add_command(admin_name, "Connected to the admin system");
+                Service_Audit.getInstance().add_command(admin_name, "Connected to the admin system");
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n!!Conexiune realizată cu success!!!");
 
                 admins.display_menu();
                 String optionStr = input.nextLine().toString();
                 Integer option = Integer.parseInt(optionStr);
-                audit.add_command(admin_name, "Banker administrative side option selected: " + Integer.toString(option));
+                Service_Audit.getInstance().getInstance().add_command(admin_name, "Banker administrative side option selected: " + Integer.toString(option));
 
                 while (option != 1 && option != 0) {
                     try {
@@ -69,7 +68,7 @@ public class Main {
                     optionStr = input.nextLine().toString();
                     option = Integer.parseInt(optionStr);
 
-                    audit.add_command(admin_name, "Banker administrative side option selected: " + Integer.toString(option));
+                    Service_Audit.getInstance().getInstance().add_command(admin_name, "Banker administrative side option selected: " + Integer.toString(option));
                 }
 
                 //Saving Banker data (after this point, the data on this part can not be changed anymore without
@@ -95,7 +94,7 @@ public class Main {
                         service.displayMenu();
                         System.out.println("Enter your option here: ");
                         optionStr = input.nextLine().toString();
-                        audit.add_command(admin_name, "Banker customer side option selected: " + Integer.toString(option));
+                        Service_Audit.getInstance().getInstance().add_command(admin_name, "Banker customer side option selected: " + Integer.toString(option));
                         try {
                             option = Integer.parseInt(optionStr);
                             if (option > 14 || option < 0) {
@@ -125,16 +124,16 @@ public class Main {
                     Transaction_Singleton.getInstance().saveData();
                 }
 
-                audit.add_command(admin_name, "Banker closed the system.");
+                Service_Audit.getInstance().add_command(admin_name, "Banker closed the system.");
             }
             else {
                 System.out.println("This banker does not exist in the system.");
-                audit.add_command("unknown", "Missed entry attempt.");
+                Service_Audit.getInstance().add_command("unknown", "Missed entry attempt.");
             }
         }
         else {
             System.out.println("Please contact a banker before accessing the system!");
-            audit.add_command("unknown", "Missed entry attempt.");
+            Service_Audit.getInstance().add_command("unknown", "Missed entry attempt.");
         }
     }
 }

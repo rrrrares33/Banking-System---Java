@@ -41,7 +41,6 @@ public class Banker_Singleton {
             }
 
             while(line != null) {
-                    System.out.println("DAAAAAAAAAAAAAAAAAAAAAAA");
                     List<String> fields = Arrays.asList(line.split(","));
 
                     Banker aux = new Banker(Integer.parseInt(fields.get(0)),

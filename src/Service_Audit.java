@@ -1,3 +1,5 @@
+import Users.Banker_Singleton;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -7,7 +9,16 @@ public class Service_Audit {
 
     final DateTimeFormatter form = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public Service_Audit() {
+    private static Service_Audit single_instance = null;
+
+    public static Service_Audit getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new Service_Audit();
+        return single_instance;
+    }
+
+    public void sys_accessed() {
         try {
             var write = new FileWriter("data/audit.csv", true);
             write.write("\n" + "System accessed at: " +
