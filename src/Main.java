@@ -4,11 +4,15 @@ import Users.Banker_Singleton;
 import Bank.Bank_Singleton;
 import Users.Customer_Singleton;
 
+import javax.xml.crypto.Data;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws SQLException{
+
         System.out.println("\n\n\n\n!!!!!WELCOME TO BANK GHERASIM RARES SYSTEM!!!!!");
         System.out.println("Only Bankers can acces this system and make operations/transactions with customers data.");
         System.out.println("\nTo be able to acces the system you need to be a banker.");
@@ -33,8 +37,10 @@ public class Main {
 
             //Banker Data Initialization
             Service_Admin admins = new Service_Admin();
-            Banker_Singleton.getInstance().loadData();
-            admins.setBankers(Banker_Singleton.getInstance().getBankers());
+
+            // Get Bankers from database
+            Database.getDatabaseInstance().read_bankers();
+            admins.setBankers(Database.getDatabaseInstance().getBankers());
 
             boolean connected = admins.connection(admin_name, admin_surname, admin_pass);
             if (connected) {
@@ -73,8 +79,10 @@ public class Main {
 
                 //Saving Banker data (after this point, the data on this part can not be changed anymore without
                 //                    restarting the program)
-                Banker_Singleton.getInstance().setBankers(admins.getBankers());
-                Banker_Singleton.getInstance().saveData();
+                //Banker_Singleton.getInstance().setBankers(admins.getBankers());
+                //Banker_Singleton.getInstance().saveData();
+                Database.getDatabaseInstance().setBankers(admins.getBankers());
+                Database.getDatabaseInstance().save_bankers();
 
                 if (option != 0) {
                     System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -82,12 +90,19 @@ public class Main {
                             admins.connectedBanker(admin_name, admin_surname, admin_pass));
 
                     //Data initialization ==========================================================
-                    Bank_Singleton.getInstance().loadData();
-                    service.setBank(Bank_Singleton.getInstance().getBank());
-                    Customer_Singleton.getInstance().loadData();
-                    service.setCustomers(Customer_Singleton.getInstance().getCustomers());
-                    Transaction_Singleton.getInstance().loadData();
-                    service.setTransaction_history(Transaction_Singleton.getInstance().getTransactions());
+                    // Bank_Singleton.getInstance().loadData();
+                    Database.getDatabaseInstance().read_bank();
+                    service.setBank(Database.getDatabaseInstance().getBank());
+
+                    //Customer_Singleton.getInstance().loadData();
+                    Database.getDatabaseInstance().read_customers();
+                    service.setCustomers(Database.getDatabaseInstance().getCustomers());
+
+
+                    //Transaction_Singleton.getInstance().loadData();
+                    Database.getDatabaseInstance().read_transactions();
+                    service.setTransaction_history(Database.getDatabaseInstance().getTransactions());
+                    //===========================================================================
 
                     while (!finish) {
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -115,13 +130,22 @@ public class Main {
                         }
                     }
 
-                    //Data saving=============================================================================
-                    Bank_Singleton.getInstance().setBank(service.getBank());
-                    Bank_Singleton.getInstance().saveData();
-                    Customer_Singleton.getInstance().setCustomers(service.getCustomers());
-                    Customer_Singleton.getInstance().saveData();
-                    Transaction_Singleton.getInstance().setTransactions(service.getTransaction_history());
-                    Transaction_Singleton.getInstance().saveData();
+                    //Data saving========================================================================
+                    //Bank_Singleton.getInstance().setBank(service.getBank());
+                    //Bank_Singleton.getInstance().saveData();
+                    Database.getDatabaseInstance().setBank(service.getBank());
+                    Database.getDatabaseInstance().save_bank();
+
+                    //Customer_Singleton.getInstance().setCustomers(service.getCustomers());
+                    //Customer_Singleton.getInstance().saveData();
+                    Database.getDatabaseInstance().setCustomers(service.getCustomers());
+                    Database.getDatabaseInstance().save_customers_and_accounts();
+
+                    //Transaction_Singleton.getInstance().setTransactions(service.getTransaction_history());
+                    //Transaction_Singleton.getInstance().saveData();
+                    Database.getDatabaseInstance().setTransactions(service.getTransaction_history());
+                    Database.getDatabaseInstance().save_transactions();
+                    //====================================================================================
                 }
 
                 Service_Audit.getInstance().add_command(admin_name, "Banker closed the system.");

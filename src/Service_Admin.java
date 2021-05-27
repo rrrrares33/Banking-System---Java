@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Service_Admin {
     private List<Banker> bankers;
+    private Database database = Database.getDatabaseInstance();
 
     public Service_Admin() {
         this.bankers = new ArrayList<>();
@@ -107,7 +108,7 @@ public class Service_Admin {
             String password = input.nextLine().toString();
 
 
-            Banker newBanker = new Banker(bankers.get(bankers.size() - 1).getID(), name, surname, CNP, phone, email, address, Birthday, Integer.parseInt(age));
+            Banker newBanker = new Banker(bankers.get(bankers.size()-1).getID() + 1, name, surname, CNP, phone, email, address, Birthday, Integer.parseInt(age));
             newBanker.setPassword(password);
 
             bankers.add(newBanker);

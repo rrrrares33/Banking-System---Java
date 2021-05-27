@@ -22,7 +22,8 @@ public class Service_Audit {
         try {
             var write = new FileWriter("data/audit.csv", true);
             write.write("\n" + "System accessed at: " +
-                    form.format(LocalDateTime.now()) + "\n");
+                    form.format(LocalDateTime.now()) +
+                    ", " + ", " + ", " + "thread_name" + "\n");
             write.close();
         }
         catch (Exception e) {
@@ -34,7 +35,7 @@ public class Service_Audit {
         try {
             var write = new FileWriter("data/audit.csv", true);
             write.write(banker + "," + action + "," +
-                    form.format(LocalDateTime.now()) + "\n");
+                    form.format(LocalDateTime.now()) + ',' + Thread.currentThread().getName() + "\n");
             write.close();
         }
         catch (Exception e) {
